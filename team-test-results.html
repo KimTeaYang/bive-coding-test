@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>팀효과성 진단 결과</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 10px;
+            background-color: #f8f9fa;
+            box-sizing: border-box;
+        }
+        
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+            width: 100%;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+            box-sizing: border-box;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+        }
+        
+        h2 {
+            color: #3498db;
+            margin-top: 30px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        h3 {
+            color: #2c3e50;
+            margin-top: 25px;
+            font-size: 1.4em;
+        }
+        
+        .summary {
+            background-color: #f1f8ff;
+            padding: 20px;
+            border-left: 4px solid #3498db;
+            margin-bottom: 30px;
+        }
+        
+        .chart-container {
+            margin: 30px 0;
+            height: 300px;
+            max-height: 50vh;
+        }
+        
+        .radar-chart {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .score-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .score-card {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .score-card h3 {
+            margin-top: 0;
+            color: #3498db;
+            font-size: 1.2em;
+        }
+        
+        .score-bar-container {
+            background-color: #ecf0f1;
+            height: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        
+        .score-bar {
+            height: 100%;
+            background-color: #3498db;
+            border-radius: 10px;
+        }
+        
+        .score-value {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .interpretation {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            font-size: 0.95em;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #3498db;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 1.1em;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+            width: 100%;
+            max-width: 250px;
+            box-sizing: border-box;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .category-details {
+            margin-top: 40px;
+        }
+        
+        .category-detail {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+        
+        .subcategory {
+            margin: 15px 0;
+            padding-left: 15px;
+            border-left: 3px solid #3498db;
+        }
+        
+        /* Media Queries for Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 5px;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            h2 {
+                font-size: 1.5em;
+            }
+            
+            h3 {
+                font-size: 1.2em;
+            }
+            
+            .chart-container {
+                height: 250px;
+            }
+            
+            .summary {
+                padding: 15px;
+            }
+            
+            .category-detail {
+                padding: 15px;
+            }
+            
+            .subcategory {
+                padding-left: 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5em;
+            }
+            
+            .chart-container {
+                height: 220px;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+            
+            .score-card {
+                padding: 12px;
+            }
+            
+            .interpretation {
+                padding: 10px;
+                font-size: 0.9em;
+            }
+            
+            .category-detail {
+                padding: 12px;
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>REALWORK 팀효과성 진단 결과</h1>
+        
+        <div class="summary">
+            <p>귀하의 팀효과성 진단 결과입니다. 이 결과는 팀의 현재 상태를 6가지 주요 영역에서 평가한 것입니다.</p>
+            <p>각 영역의 점수와 해석을 통해 팀의 강점과 개선이 필요한 영역을 파악할 수 있습니다.</p>
+        </div>
+        
+        <h2>종합 결과</h2>
+        
+        <div class="chart-container">
+            <canvas id="radarChart" class="radar-chart"></canvas>
+        </div>
+        
+        <div id="scoreGrid" class="score-grid">
+            <!-- Score cards will be generated here by JavaScript -->
+        </div>
+        
+        <div class="category-details">
+            <h2>영역별 상세 분석</h2>
+            
+            <div class="category-detail">
+                <h3>팀경계</h3>
+                <p>팀경계 영역은 하나의 팀이 가진 고유한 속성과 팀을 둘러싼 주요한 환경요인, 다른 팀과의 관계 등을 측정합니다.</p>
+                
+                <div class="subcategory">
+                    <h4>팀 목표 명확성</h4>
+                    <p>팀에 부여된 공동 목표의 명확성과 안정성을 측정합니다. 명확한 팀 목표는 팀원들의 방향성을 일치시키고 집중력을 높입니다.</p>
+                </div>
+                
+                <div class="subcategory">
+                    <h4>팀 목표 수용성</h4>
+                    <p>부여된 팀 목표에 대한 팀의 수용 정도를 다룹니다. 팀 목표와 우선순위에 대한 공유된 이해는 효과적인 팀워크의 기반이 됩니다.</p>
+                </div>
+                
+                <div class="subcategory">
+                    <h4>팀 대상 조직 지원</h4>
+                    <p>팀에 대한 조직차원의 지원을 다루며, 조직이 제공하는 다양한 지원(예, 정보, 교육훈련, 보상 등)을 측정합니다.</p>
+                </div>
+                
+                <div class="subcategory">
+                    <h4>팀 간 협력관계</h4>
+                    <p>조직 내 협력관계를 다루며, 조직 전반의 협력풍토와 여러 팀 간의 전반적인 의사소통 수준을 측정합니다.</p>
+                </div>
+            </div>
+            
+            <div class="category-detail">
+                <h3>팀 구조/흐름</h3>
+                <p>팀 구조와 흐름 영역에서는 팀 목표와 개인 역할 간의 관계, 팀 업무에 대한 이해, 업무수행에 필요한 권한, 협력을 유도하는 팀 구조 등을 다룹니다.</p>
+                
+                <div class="subcategory">
+                    <h4>팀 내 역할과 책임 명확성</h4>
+                    <p>팀 목표와 팀원 개인에게 부여된 역할 간의 관련성을 다루며, 팀 내 역할과 책임 명확성을 측정합니다.</p>
+                </div>
+                
+                <div class="subcategory">
+                    <h4>팀 내 업무절차 명확성</h4>
+                    <p>팀 업무를 처리하는 일련의 과정과 관련하여 개인의 역할, 개인 간 조정, 팀 업무 수행과 연관 있는 평가기준 개념을 다룹니다.</p>
+                </div>
+                
+                <div class="subcategory">
+                    <h4>팀 내 자율성과 혁신성</h4>
+                    <p>팀원 개인에게 부여된 의사결정 권한과 업무역할 내에서 혁신하려는 의지를 다루며, 팀 내 자율성과 역할 내 혁신성을 측정합니다.</p>
+                </div>
+                
+                <div class="subcategory">
+                    <h4>팀 내 팀워크 향상구조</h4>
+                    <p>팀원 개인에게 부여된 의사결정 권한과 업무역할 내에서 혁신하려는 의지를 다루며, 팀 내 자율성과 역할 내 혁신성을 측정합니다.</p>
+                </div>
+            </div>
+            
+            <div class="category-detail">
+                <h3>팀 동기</h3>
+                <p>팀 동기 영역에서는 팀워크에 대한 태도, 팀원의 능력에 대한 평가, 팀원 간의 태도, 팀 전반의 심리적 안전풍토 및 성장풍토 등을 다룹니다.</p>
+                
+                <div class="subcategory">
+                    <h4>팀 응집력</h4>
+                    <p>팀워크에 대한 향유 또는 팀워크에 대한 우호적인 태도인 팀 지향을 다룹니다. 또한 긍정적인 팀워크 경험을 통해 팀원들이 한 팀으로 결속된 것 같은 심리적 상태인 팀 응집을 다룹니다.</p>
+                </div>
+                
+                <div class="subcategory">
+                    <h4>팀 효능감</h4>
+                    <p>팀의 능력에 대한 긍정적 평가와 확신을 다루며, 팀의 능력과 성취에 대한 팀원들의 확신을 측정합니다.</p>
+                </div>
+                
+                <div class="subcategory">
+                    <h4>팀 심리적 안전감</h4>
+                    <p>팀 전반의 심리적 안전 풍토를 다룹니다. 팀원들이 서로를 더욱 존중하며 사소한 업무 실수를 너그럽게 용인하고, 반드시 해결해야 할 어려운 문제를 제기하며 새롭게 도전하도록 하는 팀원들의 심리적 안전감을 측정합니다.</p>
+                </div>
+                
+                <div class="subcategory">
+                    <h4>팀 학습력</h4>
+                    <p>팀 전반의 학습풍토를 다루며, 팀원들의 능력개발 기회를 탐색하는 노력과 능력을 활용하려는 열의 등을 측정합니다.</p>
+                </div>
+            </div>
+            
+            <div class="category-detail">
+                <h3>팀 행동</h3>
+                <p>팀 행동 영역에서는 팀 동료의 수행에 대한 관심과 평가, 팀원 간의 다양한 도움행동, 팀원 간의 다양한 업무피드백 등을 다룹니다.</p>
+                
+                <div class="subcategory">
+                    <h4>팀 상호관심</h4>
+                    <p>팀 동료의 업무수행에 관심을 가지며 관찰하고 이해하는 일련의 행동을 복합적으로 측정합니다.</p>
+                </div>
+                
+                <div class="subcategory">
+                    <h4>팀 업무지원</h4>
+                    <p>팀원 간에 다양한 유형의 지원행동을 다룹니다. 일반적인 지원행동, 자발적 지원행동, 다른 팀원에게 지원을 요청하는 행동까지 포괄적으로 다룹니다.</p>
+                </div>
+                
+                <div class="subcategory">
+                    <h4>팀 정보공유</h4>
+                    <p>팀원 간에 이루어지는 여러 공유행동을 다룹니다. 정보와 아이디어, 업무 진행상항과 결과의 공유 행동을 측정합니다.</p>
+                </div>
+                
+                <div class="subcategory">
+                    <h4>팀 피드백</h4>
+                    <p>팀원 간의 다양한 업무 피드백 행동을 다룹니다. 팀원이나 상사에게 업무 피드백을 요청하는 행동, 업무 피드백 요청에 성실하게 반응하는 행동, 업무 피드백을 적절하게 활용하는 행동 등을 측정합니다.</p>
+                </div>
+            </div>
+            
+            <div class="category-detail">
+                <h3>구성원 몰입</h3>
+                <p>구성원 몰입 영역에서는 직무만족과 팀이라는 조직에 대한 몰입을 다룹니다.</p>
+                
+                <div class="subcategory">
+                    <h4>팀 성과</h4>
+                    <p>팀 전반의 목표 달성에 대한 팀원들의 평가와 조직 목표에 대한 기여 수준을 측정합니다.</p>
+                </div>
+                
+                <div class="subcategory">
+                    <h4>팀 만족도</h4>
+                    <p>현재 자신이 속한 팀에 대한 전반적인 만족도를 다룹니다. 팀 만족도는 팀워크 경험에 의해 결정되며, 다른 한편으로 후속적인 팀워크 행동에 영향을 줍니다.</p>
+                </div>
+            </div>
+            
+            <div class="category-detail">
+                <h3>팀 리더의 리더십</h3>
+                <p>팀 리더의 리더십은 팀 전반의 효과성을 증진하거나 저해할 수 있습니다. 팀 리더의 리더십 영역에서는 팀 리더의 다양한 역할을 업무주도, 코칭, 지원, 촉진 등의 영역으로 세분하여 다룹니다.</p>
+                
+                <div class="subcategory">
+                    <h4>팀 리더의 업무주도</h4>
+                    <p>팀원이 효과적으로 업무를 수행하도록 지도하기 위해 팀 리더가 하는 다양한 행동을 다룹니다. 크게 업무관련 정보 제공, 업무방향 및 가이드 제시, 업무과부하에 대한 개입, 권한위임 등을 측정합니다.</p>
+                </div>
+                
+                <div class="subcategory">
+                    <h4>팀 리더의 코칭</h4>
+                    <p>팀 리더가 자신을 개방하고 팀원을 적극적으로 포용하려는 태도와 코칭 행동을 주요하게 측정합니다.</p>
+                </div>
+                
+                <div class="subcategory">
+                    <h4>팀 리더의 지원</h4>
+                    <p>팀 리더가 팀원을 업무적으로 지원하며, 정서적으로 지지하는 행동을 다룹니다. 구체적으로 팀 리더와 팀원 간의 업무적 관계, 팀 리더와 팀원 간의 정서적 친밀감 등을 측정합니다.</p>
+                </div>
+                
+                <div class="subcategory">
+                    <h4>팀 리더의 촉진</h4>
+                    <p>팀 업무를 수행할 때 팀원의 참여를 적극 유도하는 팀 리더의 행동을 측정합니다.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="btn-container">
+            <a href="team-test.html" class="btn">처음으로 돌아가기</a>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get form data from localStorage
+            const formData = JSON.parse(localStorage.getItem('teamTestResults') || '{}');
+            
+            // Define category information
+            const categoryInfo = {
+                teamBoundary: { name: "팀 경계", count: 13 },
+                teamStructure: { name: "팀 구조", count: 9 },
+                teamMotivation: { name: "팀 동기", count: 11 },
+                teamBehavior: { name: "팀 행동", count: 14 },
+                teamAchievement: { name: "구성원 몰입", count: 5 },
+                teamLeadership: { name: "팀 리더십", count: 11 }
+            };
+            
+            // Calculate results
+            const results = calculateResults(formData, categoryInfo);
+            
+            // Generate score cards
+            generateScoreCards(results);
+            
+            // Create radar chart
+            createRadarChart(results);
+        });
+        
+        function calculateResults(formData, categoryInfo) {
+            const results = {};
+            
+            // Initialize category scores
+            for (const categoryId in categoryInfo) {
+                results[categoryId] = {
+                    score: 0,
+                    maxScore: categoryInfo[categoryId].count * 5,
+                    name: categoryInfo[categoryId].name
+                };
+            }
+            
+            // Calculate scores from form data
+            for (const questionId in formData) {
+                const score = parseInt(formData[questionId]);
+                const categoryId = questionId.substring(0, questionId.lastIndexOf('_'));
+                
+                if (results[categoryId]) {
+                    results[categoryId].score += score;
+                }
+            }
+            
+            // If no data, generate random scores for demo purposes
+            if (Object.keys(formData).length === 0) {
+                for (const categoryId in results) {
+                    const percentage = 0.4 + Math.random() * 0.5; // 40% to 90%
+                    results[categoryId].score = Math.round(results[categoryId].maxScore * percentage);
+                }
+            }
+            
+            return results;
+        }
+        
+        function generateScoreCards(results) {
+            const scoreGrid = document.getElementById('scoreGrid');
+            
+            for (const categoryId in results) {
+                const categoryData = results[categoryId];
+                const percentage = (categoryData.score * 100 / categoryData.maxScore);
+                
+                const scoreCard = document.createElement('div');
+                scoreCard.className = 'score-card';
+                
+                const title = document.createElement('h3');
+                title.textContent = categoryData.name;
+                scoreCard.appendChild(title);
+                
+                const scoreValue = document.createElement('div');
+                scoreValue.className = 'score-value';
+                scoreValue.innerHTML = `<span>${categoryData.score}</span> / <span>${categoryData.maxScore}</span>`;
+                scoreCard.appendChild(scoreValue);
+                
+                const barContainer = document.createElement('div');
+                barContainer.className = 'score-bar-container';
+                
+                const bar = document.createElement('div');
+                bar.className = 'score-bar';
+                bar.style.width = `${percentage}%`;
+                barContainer.appendChild(bar);
+                scoreCard.appendChild(barContainer);
+                
+                const interpretation = document.createElement('div');
+                interpretation.className = 'interpretation';
+                
+                if (percentage < 40) {
+                    interpretation.innerHTML = '<strong>개선 필요:</strong> 이 영역은 팀의 효과성을 저해할 수 있는 요소가 있습니다. 우선적으로 개선이 필요합니다.';
+                } else if (percentage < 70) {
+                    interpretation.innerHTML = '<strong>보통:</strong> 이 영역은 기본적인 수준에서 작동하고 있지만, 더 나은 성과를 위해 개선의 여지가 있습니다.';
+                } else {
+                    interpretation.innerHTML = '<strong>우수:</strong> 이 영역은 팀의 강점입니다. 현재의 좋은 관행을 유지하고 다른 영역에도 적용해 보세요.';
+                }
+                
+                scoreCard.appendChild(interpretation);
+                scoreGrid.appendChild(scoreCard);
+            }
+        }
+        
+        function createRadarChart(results) {
+            const categories = Object.keys(results);
+            const scores = categories.map(category => {
+                const data = results[category];
+                return (data.score / data.maxScore) * 100;
+            });
+            
+            const ctx = document.getElementById('radarChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: categories.map(category => results[category].name),
+                    datasets: [{
+                        label: '팀효과성 점수 (%)',
+                        data: scores,
+                        backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                        borderColor: 'rgba(52, 152, 219, 1)',
+                        pointBackgroundColor: 'rgba(52, 152, 219, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(52, 152, 219, 1)'
+                    }]
+                },
+                options: {
+                    scales: {
+                        r: {
+                            angleLines: {
+                                display: true
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

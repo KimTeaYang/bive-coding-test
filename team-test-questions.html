@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>팀효과성 진단 문항</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 10px;
+            background-color: #f8f9fa;
+            box-sizing: border-box;
+        }
+        
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+            width: 100%;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+            box-sizing: border-box;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+        }
+        
+        h2 {
+            color: #3498db;
+            margin-top: 30px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .instructions {
+            background-color: #f1f8ff;
+            padding: 15px;
+            border-left: 4px solid #3498db;
+            margin-bottom: 20px;
+        }
+        
+        .question-section {
+            margin-bottom: 40px;
+        }
+        
+        .question-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .question-item:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .question-text {
+            flex: 1;
+            min-width: 100%;
+            margin-bottom: 15px;
+        }
+        
+        .rating-scale {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            flex-wrap: nowrap;
+        }
+        
+        .rating-option {
+            text-align: center;
+            margin: 0 2px;
+            flex: 1;
+            white-space: nowrap;
+        }
+        
+        .rating-option input {
+            margin-bottom: 5px;
+        }
+        
+        .rating-option label {
+            font-size: 0.8em;
+            display: block;
+        }
+        
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            background-color: #3498db;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 1.1em;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            flex: 1;
+            min-width: 120px;
+            max-width: 200px;
+            margin: 5px;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-secondary {
+            background-color: #95a5a6;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+        }
+        
+        .progress-container {
+            width: 100%;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            height: 20px;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background-color: #3498db;
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .progress-text {
+            text-align: center;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+        }
+        
+        .category-nav {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            gap: 8px;
+            justify-content: center;
+        }
+        
+        .category-btn {
+            padding: 8px 12px;
+            background-color: #ecf0f1;
+            color: #333;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+            text-align: center;
+        }
+        
+        .category-btn:hover, .category-btn.active {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .category-description {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f1f8ff;
+            border-left: 4px solid #3498db;
+        }
+        
+        .separator {
+            height: 1px;
+            background-color: #ddd;
+            margin: 20px 0;
+        }
+        
+        /* Media Queries for Responsive Design */
+        @media (min-width: 768px) {
+            .question-item {
+                flex-wrap: nowrap;
+                align-items: center;
+            }
+            
+            .question-text {
+                min-width: 0;
+                margin-right: 20px;
+                margin-bottom: 0;
+                flex: 1;
+            }
+            
+            .rating-scale {
+                width: auto;
+                min-width: 300px;
+                flex: 0 0 auto;
+            }
+            
+            .rating-option {
+                margin: 0 5px;
+            }
+            
+            .rating-option label {
+                font-size: 0.9em;
+            }
+            
+            .btn {
+                flex: 0 1 auto;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            body {
+                padding: 5px;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            h2 {
+                font-size: 1.5em;
+            }
+            
+            .category-btn {
+                padding: 6px 10px;
+                font-size: 0.8em;
+            }
+            
+            .rating-scale {
+                justify-content: space-around;
+                background-color: #f5f5f5;
+                border-radius: 20px;
+                padding: 8px 5px;
+                margin-top: 5px;
+            }
+            
+            .rating-option {
+                position: relative;
+            }
+            
+            .rating-option input {
+                margin: 0;
+                position: absolute;
+                opacity: 0;
+                width: 100%;
+                height: 100%;
+                cursor: pointer;
+                z-index: 2;
+            }
+            
+            .rating-option label {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                background-color: white;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+                margin: 0 auto;
+                cursor: pointer;
+            }
+            
+            .rating-option input:checked + label {
+                background-color: #3498db;
+                color: white;
+                font-weight: bold;
+                box-shadow: 0 2px 5px rgba(52, 152, 219, 0.5);
+                transform: scale(1.05);
+            }
+            
+            .rating-option label span {
+                display: none;
+            }
+            
+            .rating-option label::after {
+                content: attr(data-rating);
+                font-size: 1.2em;
+                font-weight: bold;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5em;
+            }
+            
+            .btn {
+                padding: 10px 15px;
+                font-size: 1em;
+                min-width: 100px;
+            }
+            
+            .instructions {
+                padding: 10px;
+            }
+            
+            .question-item {
+                padding: 12px 10px;
+            }
+            
+            .question-text {
+                font-size: 0.95em;
+                line-height: 1.4;
+            }
+            
+            .rating-option label {
+                width: 32px;
+                height: 32px;
+            }
+            
+            .rating-option label::after {
+                font-size: 1.1em;
+            }
+            
+            .category-description {
+                padding: 12px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>REALWORK 팀효과성 진단 TEST</h1>
+        
+        <div class="progress-container">
+            <div id="progressBar" class="progress-bar"></div>
+        </div>
+        <div id="progressText" class="progress-text">진행률: 0%</div>
+        
+        <div class="instructions">
+            <p>각 문항에 대해 귀하의 팀 상황과 가장 일치하는 정도를 선택해 주세요.</p>
+            <p>1점(매우 그렇지 않다) ~ 5점(매우 그렇다) 사이에서 선택하시면 됩니다.</p>
+            <p>모든 문항에 답변해 주셔야 결과를 확인하실 수 있습니다.</p>
+        </div>
+        
+        <div class="category-nav">
+            <button class="category-btn active" data-category="all">전체 문항</button>
+            <button class="category-btn" data-category="teamBoundary">PART 1. 팀 경계</button>
+            <button class="category-btn" data-category="teamStructure">PART 2. 팀 구조</button>
+            <button class="category-btn" data-category="teamMotivation">PART 3. 팀 동기</button>
+            <button class="category-btn" data-category="teamBehavior">PART 4. 팀 행동</button>
+            <button class="category-btn" data-category="teamAchievement">PART 5. 구성원 몰입</button>
+            <button class="category-btn" data-category="teamLeadership">PART 6. 팀 리더십</button>
+        </div>
+        
+        <form id="testForm">
+            <div id="questionsContainer">
+                <!-- Questions will be generated here by JavaScript -->
+            </div>
+            
+            <div class="btn-container">
+                <a href="team-test.html" class="btn btn-secondary">이전으로</a>
+                <button type="submit" class="btn">결과 확인하기</button>
+            </div>
+        </form>
+    </div>
+    
+    <script>
+        // Question data
+        const categories = [
+            "PART 1. 팀 경계(team boundary)",
+            "PART 2. 팀 구조(team structure)",
+            "PART 3. 팀 동기(team motivation)",
+            "PART 4. 팀 행동(team behavior)",
+            "PART 5. 구성원 몰입(commitment)",
+            "PART 6. 팀 리더의 리더십(team leader's leadership)"
+        ];
+        
+        const categoryDescriptions = {
+            "PART 1. 팀 경계(team boundary)": "하나의 조직 안에는 여러 개의 팀이 존재합니다. 팀 경계 영역에서는 특정 팀이 가진 고유한 속성(예, 팀 목표)과 팀을 둘러싼 주요한 환경요인, 다른 팀과의 관계 등을 다룹니다.",
+            "PART 2. 팀 구조(team structure)": "팀 구조 영역에서는 팀 목표와 관련한 업무 구조의 안정성(예, 역할 및 책임의 명확성), 업무 절차의 유연성, 업무수행에 필요한 권한 등을 다룹니다.",
+            "PART 3. 팀 동기(team motivation)": "팀 동기 영역에서는 팀으로 함께 일하는 것에 관한 다양한 심리-정서적 경험과 태도(예, 팀 효능감, 팀 심리적 안전감 등)를 다룹니다.",
+            "PART 4. 팀 행동(team behavior)": "팀 행동은 구성원의 상호협력적 행동을 측정하는 영역으로 팀 동료의 업무 수행에 대한 관심, 팀원 간의 다양한 도움행동, 팀원 간의 다양한 업무 피드백 등을 다룹니다.",
+            "PART 5. 구성원 몰입(commitment)": "구성원 몰입 영역에서는 직무만족과 팀이라는 조직에 대한 몰입을 다룹니다.",
+            "PART 6. 팀 리더의 리더십(team leader's leadership)": "팀 리더의 리더십 영역에서는 팀장의 업무주도(예, 업무수행 방향제시, 권한위임 등), 팀장과 팀원 간의 관계, 팀장의 팀원 지원 등을 다룹니다. 모든 응답은 익명으로 처리되므로, 자유롭고 솔직하게 답변해 주세요."
+        };
+        
+        // Questions data
+        const questions = [
+            // 팀경계 영역 (13문항)
+            { id: "teamBoundary_1", category: "PART 1. 팀 경계(team boundary)", categoryId: "teamBoundary", text: "우리 팀은 명확한 목표를 가지고 있다." },
+            { id: "teamBoundary_2", category: "PART 1. 팀 경계(team boundary)", categoryId: "teamBoundary", text: "우리 팀의 목표는 안정적으로 유지되고 있다." },
+            { id: "teamBoundary_3", category: "PART 1. 팀 경계(team boundary)", categoryId: "teamBoundary", text: "팀원들은 팀 목표에 대해 공유된 이해를 가지고 있다." },
+            { id: "teamBoundary_4", category: "PART 1. 팀 경계(team boundary)", categoryId: "teamBoundary", text: "팀원들은 팀 목표의 우선순위에 대해 공감하고 있다." },
+            { id: "teamBoundary_5", category: "PART 1. 팀 경계(team boundary)", categoryId: "teamBoundary", text: "팀원들은 팀 목표 달성을 위한 계획을 함께 수립한다." },
+            { id: "teamBoundary_6", category: "PART 1. 팀 경계(team boundary)", categoryId: "teamBoundary", text: "우리 조직은 팀에 필요한 정보를 충분히 제공한다." },
+            { id: "teamBoundary_7", category: "PART 1. 팀 경계(team boundary)", categoryId: "teamBoundary", text: "우리 조직은 팀에 필요한 교육훈련을 지원한다." },
+            { id: "teamBoundary_8", category: "PART 1. 팀 경계(team boundary)", categoryId: "teamBoundary", text: "우리 조직은 팀 성과에 대해 적절한 보상을 제공한다." },
+            { id: "teamBoundary_9", category: "PART 1. 팀 경계(team boundary)", categoryId: "teamBoundary", text: "우리 조직 내에는 협력적인 분위기가 형성되어 있다." },
+            { id: "teamBoundary_10", category: "PART 1. 팀 경계(team boundary)", categoryId: "teamBoundary", text: "우리 팀은 다른 팀들과 원활하게 소통한다." },
+            { id: "teamBoundary_11", category: "PART 1. 팀 경계(team boundary)", categoryId: "teamBoundary", text: "우리 팀은 다른 팀들과 정보를 적극적으로 공유한다." },
+            { id: "teamBoundary_12", category: "PART 1. 팀 경계(team boundary)", categoryId: "teamBoundary", text: "우리 팀은 다른 팀들과 협력하여 문제를 해결한다." },
+            { id: "teamBoundary_13", category: "PART 1. 팀 경계(team boundary)", categoryId: "teamBoundary", text: "우리 팀은 다른 팀들의 요청에 신속하게 대응한다." },
+            
+            // 팀 구조/흐름 영역 (9문항)
+            { id: "teamStructure_1", category: "PART 2. 팀 구조(team structure)", categoryId: "teamStructure", text: "우리 팀에서는 각 팀원의 역할과 책임이 명확하다." },
+            { id: "teamStructure_2", category: "PART 2. 팀 구조(team structure)", categoryId: "teamStructure", text: "우리 팀에서는 업무 수행 절차가 명확하게 정의되어 있다." },
+            { id: "teamStructure_3", category: "PART 2. 팀 구조(team structure)", categoryId: "teamStructure", text: "우리 팀에서는 업무 수행 시점이 명확하게 정해져 있다." },
+            { id: "teamStructure_4", category: "PART 2. 팀 구조(team structure)", categoryId: "teamStructure", text: "우리 팀에서는 업무 평가 기준이 명확하다." },
+            { id: "teamStructure_5", category: "PART 2. 팀 구조(team structure)", categoryId: "teamStructure", text: "우리 팀에서는 팀원들에게 의사결정 권한이 적절히 부여된다." },
+            { id: "teamStructure_6", category: "PART 2. 팀 구조(team structure)", categoryId: "teamStructure", text: "우리 팀에서는 팀원들이 자신의 역할 내에서 혁신을 시도할 수 있다." },
+            { id: "teamStructure_7", category: "PART 2. 팀 구조(team structure)", categoryId: "teamStructure", text: "우리 팀의 구조는 팀워크를 향상시키는 데 도움이 된다." },
+            { id: "teamStructure_8", category: "PART 2. 팀 구조(team structure)", categoryId: "teamStructure", text: "우리 팀에서는 팀원 간 협력이 자연스럽게 이루어진다." },
+            { id: "teamStructure_9", category: "PART 2. 팀 구조(team structure)", categoryId: "teamStructure", text: "우리 팀에서는 필요할 때 업무 조정이 원활하게 이루어진다." },
+            
+            // 팀 동기 영역 (11문항)
+            { id: "teamMotivation_1", category: "PART 3. 팀 동기(team motivation)", categoryId: "teamMotivation", text: "나는 팀으로 일하는 것을 즐긴다." },
+            { id: "teamMotivation_2", category: "PART 3. 팀 동기(team motivation)", categoryId: "teamMotivation", text: "우리 팀원들은 한 팀으로 결속되어 있다고 느낀다." },
+            { id: "teamMotivation_3", category: "PART 3. 팀 동기(team motivation)", categoryId: "teamMotivation", text: "우리 팀은 주어진 업무를 성공적으로 수행할 능력이 있다." },
+            { id: "teamMotivation_4", category: "PART 3. 팀 동기(team motivation)", categoryId: "teamMotivation", text: "우리 팀은 어려운 과제도 해결할 수 있다는 확신이 있다." },
+            { id: "teamMotivation_5", category: "PART 3. 팀 동기(team motivation)", categoryId: "teamMotivation", text: "우리 팀에서는 실수를 해도 비난받지 않는다." },
+            { id: "teamMotivation_6", category: "PART 3. 팀 동기(team motivation)", categoryId: "teamMotivation", text: "우리 팀에서는 어려운 문제를 자유롭게 제기할 수 있다." },
+            { id: "teamMotivation_7", category: "PART 3. 팀 동기(team motivation)", categoryId: "teamMotivation", text: "우리 팀에서는 서로 다른 의견을 존중한다." },
+            { id: "teamMotivation_8", category: "PART 3. 팀 동기(team motivation)", categoryId: "teamMotivation", text: "우리 팀에서는 새로운 도전을 장려한다." },
+            { id: "teamMotivation_9", category: "PART 3. 팀 동기(team motivation)", categoryId: "teamMotivation", text: "우리 팀에서는 팀원들의 능력 개발을 위한 기회를 찾는다." },
+            { id: "teamMotivation_10", category: "PART 3. 팀 동기(team motivation)", categoryId: "teamMotivation", text: "우리 팀원들은 자신의 능력을 향상시키려는 열의가 있다." },
+            { id: "teamMotivation_11", category: "PART 3. 팀 동기(team motivation)", categoryId: "teamMotivation", text: "우리 팀에서는 지속적인 학습이 이루어진다." },
+            
+            // 팀 행동 영역 (14문항)
+            { id: "teamBehavior_1", category: "PART 4. 팀 행동(team behavior)", categoryId: "teamBehavior", text: "우리 팀원들은 서로의 업무 수행에 관심을 갖는다." },
+            { id: "teamBehavior_2", category: "PART 4. 팀 행동(team behavior)", categoryId: "teamBehavior", text: "우리 팀원들은 서로의 업무 진행 상황을 파악하고 있다." },
+            { id: "teamBehavior_3", category: "PART 4. 팀 행동(team behavior)", categoryId: "teamBehavior", text: "우리 팀원들은 서로의 강점과 약점을 이해하고 있다." },
+            { id: "teamBehavior_4", category: "PART 4. 팀 행동(team behavior)", categoryId: "teamBehavior", text: "우리 팀원들은 서로 도움이 필요할 때 기꺼이 지원한다." },
+            { id: "teamBehavior_5", category: "PART 4. 팀 행동(team behavior)", categoryId: "teamBehavior", text: "우리 팀원들은 요청이 없어도 자발적으로 도움을 제공한다." },
+            { id: "teamBehavior_6", category: "PART 4. 팀 행동(team behavior)", categoryId: "teamBehavior", text: "우리 팀에서는 도움이 필요할 때 자유롭게 요청할 수 있다." },
+            { id: "teamBehavior_7", category: "PART 4. 팀 행동(team behavior)", categoryId: "teamBehavior", text: "우리 팀원들은 정보를 적극적으로 공유한다." },
+            { id: "teamBehavior_8", category: "PART 4. 팀 행동(team behavior)", categoryId: "teamBehavior", text: "우리 팀원들은 새로운 아이디어를 자유롭게 제안한다." },
+            { id: "teamBehavior_9", category: "PART 4. 팀 행동(team behavior)", categoryId: "teamBehavior", text: "우리 팀에서는 업무 진행 상황을 정기적으로 공유한다." },
+            { id: "teamBehavior_10", category: "PART 4. 팀 행동(team behavior)", categoryId: "teamBehavior", text: "우리 팀에서는 업무 결과를 투명하게 공유한다." },
+            { id: "teamBehavior_11", category: "PART 4. 팀 행동(team behavior)", categoryId: "teamBehavior", text: "우리 팀에서는 업무 피드백을 자유롭게 요청한다." },
+            { id: "teamBehavior_12", category: "PART 4. 팀 행동(team behavior)", categoryId: "teamBehavior", text: "우리 팀에서는 피드백 요청에 성실하게 응답한다." },
+            { id: "teamBehavior_13", category: "PART 4. 팀 행동(team behavior)", categoryId: "teamBehavior", text: "우리 팀에서는 받은 피드백을 적절히 활용한다." },
+            { id: "teamBehavior_14", category: "PART 4. 팀 행동(team behavior)", categoryId: "teamBehavior", text: "우리 팀에서는 건설적인 피드백이 이루어진다." },
+            
+            // 구성원 몰입 영역 (5문항)
+            { id: "teamAchievement_1", category: "PART 5. 구성원 몰입(commitment)", categoryId: "teamAchievement", text: "우리 팀은 목표를 효과적으로 달성하고 있다." },
+            { id: "teamAchievement_2", category: "PART 5. 구성원 몰입(commitment)", categoryId: "teamAchievement", text: "우리 팀은 조직의 목표 달성에 기여하고 있다." },
+            { id: "teamAchievement_3", category: "PART 5. 구성원 몰입(commitment)", categoryId: "teamAchievement", text: "나는 우리 팀에 소속된 것에 만족한다." },
+            { id: "teamAchievement_4", category: "PART 5. 구성원 몰입(commitment)", categoryId: "teamAchievement", text: "나는 팀원들과의 관계에 만족한다." },
+            { id: "teamAchievement_5", category: "PART 5. 구성원 몰입(commitment)", categoryId: "teamAchievement", text: "나는 계속해서 이 팀에 남고 싶다." },
+            
+            // 팀 리더의 리더십 영역 (11문항)
+            { id: "teamLeadership_1", category: "PART 6. 팀 리더의 리더십(team leader's leadership)", categoryId: "teamLeadership", text: "우리 팀 리더는 업무 관련 정보를 충분히 제공한다." },
+            { id: "teamLeadership_2", category: "PART 6. 팀 리더의 리더십(team leader's leadership)", categoryId: "teamLeadership", text: "우리 팀 리더는 명확한 업무 방향을 제시한다." },
+            { id: "teamLeadership_3", category: "PART 6. 팀 리더의 리더십(team leader's leadership)", categoryId: "teamLeadership", text: "우리 팀 리더는 업무 과부하 상황에 적절히 개입한다." },
+            { id: "teamLeadership_4", category: "PART 6. 팀 리더의 리더십(team leader's leadership)", categoryId: "teamLeadership", text: "우리 팀 리더는 팀원들에게 적절한 권한을 위임한다." },
+            { id: "teamLeadership_5", category: "PART 6. 팀 리더의 리더십(team leader's leadership)", categoryId: "teamLeadership", text: "우리 팀 리더는 자신의 생각과 감정을 솔직하게 표현한다." },
+            { id: "teamLeadership_6", category: "PART 6. 팀 리더의 리더십(team leader's leadership)", categoryId: "teamLeadership", text: "우리 팀 리더는 팀원들의 의견을 적극적으로 수용한다." },
+            { id: "teamLeadership_7", category: "PART 6. 팀 리더의 리더십(team leader's leadership)", categoryId: "teamLeadership", text: "우리 팀 리더는 팀원들의 성장을 위해 코칭한다." },
+            { id: "teamLeadership_8", category: "PART 6. 팀 리더의 리더십(team leader's leadership)", categoryId: "teamLeadership", text: "우리 팀 리더는 업무적으로 팀원들을 지원한다." },
+            { id: "teamLeadership_9", category: "PART 6. 팀 리더의 리더십(team leader's leadership)", categoryId: "teamLeadership", text: "우리 팀 리더는 팀원들과 정서적으로 친밀한 관계를 유지한다." },
+            { id: "teamLeadership_10", category: "PART 6. 팀 리더의 리더십(team leader's leadership)", categoryId: "teamLeadership", text: "우리 팀 리더는 팀 회의에서 모든 팀원의 참여를 유도한다." },
+            { id: "teamLeadership_11", category: "PART 6. 팀 리더의 리더십(team leader's leadership)", categoryId: "teamLeadership", text: "우리 팀 리더는 팀원들 간의 협력을 촉진한다." }
+        ];
+        
+        // Generate questions HTML
+        document.addEventListener('DOMContentLoaded', function() {
+            const questionsContainer = document.getElementById('questionsContainer');
+            const form = document.getElementById('testForm');
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            let totalQuestions = questions.length;
+            
+            // Generate HTML for each category
+            categories.forEach(category => {
+                const categoryId = category.split('(')[0].trim().split(' ').pop().toLowerCase();
+                const sectionId = category.includes('팀 경계') ? 'teamBoundary' : 
+                                 category.includes('팀 구조') ? 'teamStructure' : 
+                                 category.includes('팀 동기') ? 'teamMotivation' : 
+                                 category.includes('팀 행동') ? 'teamBehavior' : 
+                                 category.includes('구성원 몰입') ? 'teamAchievement' : 
+                                 'teamLeadership';
+                
+                // Create section element
+                const section = document.createElement('div');
+                section.className = 'question-section';
+                section.id = sectionId;
+                
+                // Add category title
+                const title = document.createElement('h2');
+                title.textContent = category;
+                section.appendChild(title);
+                
+                // Add category description
+                const description = document.createElement('div');
+                description.className = 'category-description';
+                description.innerHTML = `<p>${categoryDescriptions[category]}</p>`;
+                section.appendChild(description);
+                
+                // Add separator
+                const separator = document.createElement('div');
+                separator.className = 'separator';
+                section.appendChild(separator);
+                
+                // Add questions for this category
+                const categoryQuestions = questions.filter(q => q.category === category);
+                categoryQuestions.forEach((question, index) => {
+                    const questionItem = document.createElement('div');
+                    questionItem.className = 'question-item';
+                    
+                    // Question text
+                    const questionText = document.createElement('div');
+                    questionText.className = 'question-text';
+                    questionText.textContent = `${index + 1}. ${question.text}`;
+                    questionItem.appendChild(questionText);
+                    
+                    // Rating scale
+                    const ratingScale = document.createElement('div');
+                    ratingScale.className = 'rating-scale';
+                    
+                    // Create 5 rating options
+                    for (let rating = 1; rating <= 5; rating++) {
+                        const ratingOption = document.createElement('div');
+                        ratingOption.className = 'rating-option';
+                        
+                        const input = document.createElement('input');
+                        input.type = 'radio';
+                        input.name = question.id;
+                        input.id = `${question.id}_${rating}`;
+                        input.value = rating;
+                        input.required = true;
+                        
+                        const label = document.createElement('label');
+                        label.htmlFor = `${question.id}_${rating}`;
+                        label.setAttribute('data-rating', rating);
+                        
+                        const span = document.createElement('span');
+                        span.textContent = rating === 1 ? '매우 그렇지 않다' :
+                                          rating === 2 ? '그렇지 않다' :
+                                          rating === 3 ? '보통이다' :
+                                          rating === 4 ? '그렇다' : '매우 그렇다';
+                        
+                        label.appendChild(span);
+                        ratingOption.appendChild(input);
+                        ratingOption.appendChild(label);
+                        ratingScale.appendChild(ratingOption);
+                    }
+                    
+                    questionItem.appendChild(ratingScale);
+                    section.appendChild(questionItem);
+                });
+                
+                questionsContainer.appendChild(section);
+            });
+            
+            // Update progress bar
+            function updateProgress() {
+                const answeredQuestions = document.querySelectorAll('input[type="radio"]:checked').length;
+                const percentage = Math.round((answeredQuestions / totalQuestions) * 100);
+                progressBar.style.width = percentage + '%';
+                progressText.textContent = '진행률: ' + percentage + '%';
+            }
+            
+            // Add event listeners to radio buttons
+            const allRadios = document.querySelectorAll('input[type="radio"]');
+            allRadios.forEach(radio => {
+                radio.addEventListener('change', updateProgress);
+            });
+            
+            // Category filtering
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Update active button style
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const category = this.getAttribute('data-category');
+                    const questionSections = document.querySelectorAll('.question-section');
+                    
+                    if (category === 'all') {
+                        // Show all sections
+                        questionSections.forEach(section => {
+                            section.style.display = 'block';
+                        });
+                    } else {
+                        // Show only selected category
+                        questionSections.forEach(section => {
+                            if (section.id === category) {
+                                section.style.display = 'block';
+                            } else {
+                                section.style.display = 'none';
+                            }
+                        });
+                    }
+                });
+            });
+            
+            // Form submission
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                const answeredQuestions = document.querySelectorAll('input[type="radio"]:checked').length;
+                
+                if (answeredQuestions < totalQuestions) {
+                    alert('모든 문항에 응답해 주세요.');
+                    
+                    // Scroll to first unanswered question
+                    const unansweredQuestions = Array.from(document.querySelectorAll('.question-item')).filter(item => {
+                        const questionId = item.querySelector('input').name;
+                        return !document.querySelector(`input[name="${questionId}"]:checked`);
+                    });
+                    
+                    if (unansweredQuestions.length > 0) {
+                        unansweredQuestions[0].scrollIntoView({ behavior: 'smooth' });
+                    }
+                } else {
+                    // Collect form data
+                    const formData = {};
+                    allRadios.forEach(radio => {
+                        if (radio.checked) {
+                            formData[radio.name] = radio.value;
+                        }
+                    });
+                    
+                    // Store form data in localStorage
+                    localStorage.setItem('teamTestResults', JSON.stringify(formData));
+                    
+                    // Navigate to results page
+                    window.location.href = 'team-test-results.html';
+                }
+            });
+            
+            // Initialize progress
+            updateProgress();
+        });
+    </script>
+</body>
+</html>
